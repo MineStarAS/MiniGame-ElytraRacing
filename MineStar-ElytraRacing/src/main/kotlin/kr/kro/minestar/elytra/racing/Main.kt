@@ -1,4 +1,4 @@
-package kr.kro.minestar.pack
+package kr.kro.minestar.elytra.racing
 
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -11,7 +11,7 @@ class Main : JavaPlugin() {
     override fun onEnable() {
         pl = this
         logger.info("$prefix §aEnable")
-        getCommand("cmd")?.setExecutor(Command)
+        getCommand("er")?.setExecutor(Command)
     }
 
     override fun onDisable() {

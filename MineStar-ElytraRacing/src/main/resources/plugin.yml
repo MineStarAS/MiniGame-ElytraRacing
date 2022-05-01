@@ -1,7 +1,7 @@
 name: ${project.name}
 version: ${project.version}
-main: Main
-api-version: 1.17
+main: kr.kro.minestar.elytra.racing.Main
+api-version: 1.18
 authors: [ MineStar ]
 commands:
-  cmd:
+  er:

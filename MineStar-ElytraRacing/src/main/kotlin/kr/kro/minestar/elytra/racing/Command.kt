@@ -1,9 +1,13 @@
-package kr.kro.minestar.pack
+package kr.kro.minestar.elytra.racing
 
-import kr.kro.minestar.pack.Main.Companion.prefix
+import kr.kro.minestar.elytra.racing.Main.Companion.prefix
+import kr.kro.minestar.elytra.racing.data.locations.BoostLocation
 import kr.kro.minestar.utility.command.Argument
 import kr.kro.minestar.utility.command.FunctionalCommand
+import kr.kro.minestar.utility.location.Axis
+import kr.kro.minestar.utility.location.addAxis
 import kr.kro.minestar.utility.string.toPlayer
+import kr.kro.minestar.utility.string.toServer
 import kr.kro.minestar.utility.unit.setFalse
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -12,9 +16,9 @@ import org.bukkit.entity.Player
 
 object Command : FunctionalCommand {
     private enum class Arg(override val howToUse: String) : Argument {
-        cmd1("[create/remove]"),
-        cmd2("[create/remove] <PlayerName>"),
-        cmd3("[create/remove] <PlayerName> {Amount}"),
+        cmd1(""),
+        cmd2(""),
+        cmd3(""),
     }
 
     private enum class OpArg(override val howToUse: String) : Argument {
@@ -30,10 +34,21 @@ object Command : FunctionalCommand {
 
         when (arg) {
             Arg.cmd1 -> {}
-            Arg.cmd2 -> {}
+            Arg.cmd2 -> {
+                val loc = player.location
+                " ".toServer()
+                "${loc.yaw}".toServer()
+                "${loc.pitch}".toServer()
+                loc.addAxis(Axis.YAW, 10)
+                " ".toServer()
+                "${loc.yaw}".toServer()
+                "${loc.pitch}".toServer()
+                player.teleport(loc)
+            }
             Arg.cmd3 -> {}
 
-            OpArg.test -> {}
+            OpArg.test -> {
+            }
         }
         return false
     }
@@ -50,9 +65,11 @@ object Command : FunctionalCommand {
         fun List<String>.add() {
             for (s in this) if (s.contains(last)) list.add(s)
         }
+
         fun Array<out Argument>.add() {
             for (s in this) if (s.name.contains(last)) list.add(s.name)
         }
+
         fun playerAdd() {
             for (s in Bukkit.getOnlinePlayers()) if (s.name.contains(last)) list.add(s.name)
         }
