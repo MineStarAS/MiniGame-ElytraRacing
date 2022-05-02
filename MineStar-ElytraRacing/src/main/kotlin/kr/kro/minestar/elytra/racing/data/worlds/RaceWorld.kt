@@ -19,7 +19,7 @@ import java.io.File
 
 class RaceWorld(val world: World) : Listener {
 
-    private val folder = WorldClass.worldFolder(world)
+    private val folder = world.worldFolder
     private val ymlFile = File(folder, "worldData.yml")
     private val yml = YamlConfiguration.loadConfiguration(ymlFile)
 

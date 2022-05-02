@@ -3,6 +3,7 @@
 package kr.kro.minestar.elytra.racing.funcions
 
 import kr.kro.minestar.elytra.racing.Main.Companion.pl
+import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.WorldCreator
 import java.io.File
@@ -13,8 +14,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object WorldClass {
-    private val folder = File("${pl.dataFolder}/worldFolder").apply { if (!exists()) mkdir() }
+    internal val folder = File("${pl.dataFolder}/worldFolder").apply { if (!exists()) mkdir() }
     private fun serverFolder() = File(pl.dataFolder.absolutePath).parentFile!!.parentFile!!
+
+    fun worldFolder(world: World) = File(serverFolder(), world.name)
 
     fun enableRaceWorld(worldName: String): World? {
         val worldFolder = File("$folder/$worldName")
@@ -30,7 +33,17 @@ object WorldClass {
         return WorldCreator(date).createWorld()
     }
 
-    fun worldFolder(world: World) = File(serverFolder(), world.name)
+    fun enableDesignWorld(worldName: String): World? {
+        val worldFolder = File("$folder/$worldName")
+        val cloneFolder = File(serverFolder(), worldName)
+        if (!cloneFolder.exists()) {
+            if (!isWorldFolder(worldFolder)) return null
+            File(worldFolder, "uid.dat").delete()
+            fileCopy(worldFolder, cloneFolder)
+        }
+
+        return WorldCreator(worldName).createWorld()
+    }
 
     private fun date(): String = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().time)
 
@@ -40,13 +53,13 @@ object WorldClass {
             "advancements", "data", "datapacks",
             "entities", "playerdata", "poi",
             "region", "stats", "level.dat",
-            "level.dat_old", "session.lock", "worldData.yml",
+            "level.dat_old", "worldData.yml",
         )
         for (fileName in checkFileList) if (!File("$worldFolder/$fileName").exists()) return false
         return true
     }
 
-    private fun fileCopy(sourceFolder: File, targetFolder: File) {
+    internal fun fileCopy(sourceFolder: File, targetFolder: File) {
         val fileList = sourceFolder.listFiles()
         for (file in fileList) {
             val temp = File(targetFolder.absolutePath + File.separator + file.name)
@@ -54,6 +67,7 @@ object WorldClass {
                 temp.mkdir()
                 fileCopy(file, temp)
             } else {
+                if (file.name == "session.lock") return
                 val input = FileInputStream(file)
                 val output = FileOutputStream(temp)
                 try {

@@ -19,7 +19,7 @@ import java.io.File
 
 class DesignWorld(val world: World) : Listener {
 
-    private val folder = WorldClass.worldFolder(world)
+    private val folder = world.worldFolder
     private val ymlFile = File(folder, "worldData.yml")
     private val yml = YamlConfiguration.loadConfiguration(ymlFile)
 
@@ -40,7 +40,6 @@ class DesignWorld(val world: World) : Listener {
                 else -> continue
             }
         }
-
         enable(pl)
     }
 
@@ -50,6 +49,14 @@ class DesignWorld(val world: World) : Listener {
         pitch = 1.5F
     }
 
+    fun save() {
+        world.save()
+        WorldClass.fileCopy(folder, File("${WorldClass.folder}", folder.name))
+    }
+
+    /**
+     * Event
+     */
     @EventHandler
     fun move(e: PlayerMoveEvent) {
         if (e.player.world != world) return
