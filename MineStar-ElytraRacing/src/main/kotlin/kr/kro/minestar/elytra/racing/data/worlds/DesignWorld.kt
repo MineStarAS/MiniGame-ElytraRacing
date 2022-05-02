@@ -1,93 +1,38 @@
 package kr.kro.minestar.elytra.racing.data.worlds
 
-import kr.kro.minestar.elytra.racing.Main.Companion.pl
-import kr.kro.minestar.elytra.racing.data.locations.BoostLocation
-import kr.kro.minestar.elytra.racing.data.locations.GoalLocation
-import kr.kro.minestar.elytra.racing.data.locations.StartLocation
-import kr.kro.minestar.elytra.racing.funcions.WorldClass
-import kr.kro.minestar.utility.event.enable
-import kr.kro.minestar.utility.inventory.hasSameItem
+import kr.kro.minestar.utility.item.addLore
+import kr.kro.minestar.utility.item.display
 import kr.kro.minestar.utility.material.item
-import kr.kro.minestar.utility.sound.PlaySound
 import org.bukkit.*
-import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerMoveEvent
-import java.io.File
+import org.bukkit.event.player.PlayerInteractEvent
 
-class DesignWorld(val world: World) : Listener {
-
-    private val folder = world.worldFolder
-    private val ymlFile = File(folder, "worldData.yml")
-    private val yml = YamlConfiguration.loadConfiguration(ymlFile)
-
-    private val startLoc: StartLocation = StartLocation(yml.getLocation("StartLocation") ?: world.spawnLocation)
-    private val goalLoc: GoalLocation = GoalLocation(yml.getLocation("GoalLocation") ?: world.spawnLocation)
-
-    private val boostLocSet = hashSetOf<BoostLocation>()
-    private val boostDelaySet = hashSetOf<Player>()
-
+class DesignWorld(world: World) : WorldData(world) {
     init {
-        val keys = yml.getKeys(true)
-
-        for (key in keys) {
-            val loc = yml.getLocation(key) ?: continue
-
-            when (true) {
-                key in "BoostLocation" -> boostLocSet.add(BoostLocation(loc))
-                else -> continue
-            }
+        if (!ymlFile.exists()) {
+            yml["Icon"] = Material.GRASS_BLOCK.item()
         }
-        enable(pl)
     }
 
-    private val giveBoosterSound = PlaySound().apply {
-        soundCategory = SoundCategory.RECORDS
-        sound = Sound.ENTITY_PLAYER_LEVELUP
-        pitch = 1.5F
-    }
+    val editStartGoalLocTool = Material.CLOCK.item().display("Start/Goal Location Edit Tool")
+        .addLore("§8[Left Click] set Start Location")
+        .addLore("§8[Right Click] set Goal Location")
 
-    fun save() {
-        world.save()
-        WorldClass.fileCopy(folder, File("${WorldClass.folder}", folder.name))
-    }
+    val editBoosterLocTool = Material.CLOCK.item().display("Booster Location Edit Tool")
+        .addLore("§8[Left Click] add Booster Location")
+        .addLore("§8[Right Click] remove Booster Location")
 
-    /**
-     * Event
-     */
     @EventHandler
-    fun move(e: PlayerMoveEvent) {
-        if (e.player.world != world) return
-        if (e.player.gameMode != GameMode.ADVENTURE) return
+    fun useTool(e: PlayerInteractEvent) {
+        if (!e.player.isOp) return
 
         val player = e.player
-        val loc = player.location
+        val item = e.item ?: return
 
-        fun giveBooster() {
-            val booster = Material.FIREWORK_ROCKET.item()
+        when(item) {
+            editStartGoalLocTool -> {}
+            editBoosterLocTool -> {}
 
-            if (player.inventory.hasSameItem(booster)) return
-            if (boostDelaySet.contains(player)) return
-
-            boostDelaySet.add(player)
-            Bukkit.getScheduler().runTaskLater(pl, Runnable { boostDelaySet.remove(player) }, 10)
-
-            player.inventory.setItemInOffHand(booster)
-            giveBoosterSound.play(player)
-        }
-
-        fun goalIn() {
-
-        }
-
-        when (true) {
-            player.isGliding -> for (boostLoc in boostLocSet) {
-                if (boostLoc.location.distance(loc) > 3) continue
-                else return giveBooster()
-            }
-            player.isOnGround -> if (goalLoc.location.distance(loc) > 3) goalIn()
             else -> return
         }
     }

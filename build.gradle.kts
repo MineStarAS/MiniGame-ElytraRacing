@@ -37,6 +37,7 @@ subprojects {
         //project_TL
 
         //MineStar
-        implementation("kr.kro.minestar:Utility-API:1.0.7")
+//        implementation("kr.kro.minestar:Utility-API:1.0.7")
+        implementation(files("C:\\Users\\MineStar\\Desktop\\MC Server folder\\libs\\Utility-API-1.0.7.jar"))
     }
 }
