@@ -3,7 +3,8 @@
 package kr.kro.minestar.elytra.racing.funcions
 
 import kr.kro.minestar.elytra.racing.Main.Companion.pl
-import org.bukkit.Bukkit
+import kr.kro.minestar.elytra.racing.data.worlds.DesignWorld
+import kr.kro.minestar.elytra.racing.data.worlds.RaceWorld
 import org.bukkit.World
 import org.bukkit.WorldCreator
 import java.io.File
@@ -19,7 +20,7 @@ object WorldClass {
 
     fun worldFolder(world: World) = File(serverFolder(), world.name)
 
-    fun enableRaceWorld(worldName: String): World? {
+    fun enableRaceWorld(worldName: String): RaceWorld? {
         val worldFolder = File("$folder/$worldName")
         if (!isWorldFolder(worldFolder)) return null
 
@@ -30,10 +31,11 @@ object WorldClass {
 
         fileCopy(worldFolder, cloneFolder)
 
-        return WorldCreator(date).createWorld()
+        val world = WorldCreator(date).createWorld() ?: return null
+        return RaceWorld(world)
     }
 
-    fun enableDesignWorld(worldName: String): World? {
+    fun enableDesignWorld(worldName: String): DesignWorld? {
         val worldFolder = File("$folder/$worldName")
         val cloneFolder = File(serverFolder(), worldName)
         if (!cloneFolder.exists()) {
@@ -42,7 +44,8 @@ object WorldClass {
             fileCopy(worldFolder, cloneFolder)
         }
 
-        return WorldCreator(worldName).createWorld()
+        val world = WorldCreator(worldName).createWorld() ?: return null
+        return DesignWorld(world)
     }
 
     private fun date(): String = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().time)
