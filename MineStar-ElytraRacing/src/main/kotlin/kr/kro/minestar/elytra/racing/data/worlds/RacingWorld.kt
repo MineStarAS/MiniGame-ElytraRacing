@@ -112,7 +112,7 @@ class RacingWorld(world: World, private val worldName: String) : WorldData(world
             started = true
             for (player in worldPlayers()) inventorySet(player)
             gaugeDisplay()
-            SoundClass.countDown.clone().setScale(Scale.LA).play(worldPlayers())
+            SoundClass.start(worldPlayers())
         })
         scheduler.addRun(RunTitle(worldPlayers(), "§6START", " ", 0, 20, 0, 0))
         scheduler.play()

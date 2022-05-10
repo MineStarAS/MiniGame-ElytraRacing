@@ -316,7 +316,6 @@ class DesignData(val player: Player) : Listener {
         block.setGravity(false)
         block.dropItem = false
         block.ticksLived = 600 - 1
-
     }
 
     /**

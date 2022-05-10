@@ -72,6 +72,19 @@ object SoundClass {
         setScale(Scale.DO)
     }
 
+    internal fun start(players: Collection<Player>) {
+        val scheduler = Scheduler(pl)
+        val interval = 2L
+        val sound = PlaySound().apply {
+            soundCategory = SoundCategory.RECORDS
+            sound = Sound.BLOCK_NOTE_BLOCK_BIT
+        }
+        scheduler.addRun(RunNow { sound.setScale(Scale.LA).play(players) })
+        scheduler.addRun(RunLater({ sound.setScale(Scale.TI).play(players) }, interval))
+        scheduler.addRun(RunLater({ sound.setScale(Scale.H_RE).play(players) }, interval))
+        scheduler.play()
+    }
+
     internal fun enterWorld(players: Collection<Player>) {
         val scheduler = Scheduler(pl)
         val interval = 4L
