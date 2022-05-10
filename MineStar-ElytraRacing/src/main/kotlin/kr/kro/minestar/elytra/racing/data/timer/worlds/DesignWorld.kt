@@ -1,4 +1,4 @@
-package kr.kro.minestar.elytra.racing.data.worlds
+package kr.kro.minestar.elytra.racing.data.timer.worlds
 
 import kr.kro.minestar.elytra.racing.funcions.ItemClass
 import kr.kro.minestar.elytra.racing.funcions.WorldClass

@@ -1,4 +1,4 @@
-package kr.kro.minestar.elytra.racing.data.worlds
+package kr.kro.minestar.elytra.racing.data.timer.worlds
 
 import kr.kro.minestar.elytra.racing.Main.Companion.pl
 import kr.kro.minestar.elytra.racing.data.bossbar.SpeedGauge

@@ -2,7 +2,7 @@ package kr.kro.minestar.elytra.racing
 
 import kr.kro.minestar.elytra.racing.Main.Companion.prefix
 import kr.kro.minestar.elytra.racing.data.player.DesignData
-import kr.kro.minestar.elytra.racing.data.worlds.DesignWorld
+import kr.kro.minestar.elytra.racing.data.timer.worlds.DesignWorld
 import kr.kro.minestar.elytra.racing.funcions.ItemClass
 import kr.kro.minestar.elytra.racing.funcions.WorldClass
 import kr.kro.minestar.elytra.racing.gui.MenuGUI
@@ -30,8 +30,6 @@ object Command : FunctionalCommand {
         racing("<WorldName>"),
         world("[create/open/save] <WorldName>"),
         tool(""),
-
-        test("<Korean>"),
     }
 
     var test: DesignWorld? = null
@@ -40,7 +38,8 @@ object Command : FunctionalCommand {
         if (player !is Player) return false
 
         if (args.isEmpty()) {
-            MenuGUI(player)
+//            MenuGUI(player)
+            printHowToUse(OpArg.values(), player, label, prefix)
             return false
         }
 
@@ -90,11 +89,6 @@ object Command : FunctionalCommand {
                 inventory.setItem(2,ItemClass.redStoneBlock)
                 for ((int, item) in DesignData.editToolHotBar.withIndex()) inventory.setItem(int + 3, item)
             }
-            OpArg.test -> {
-                val test = WorldClass.convertUnicode(args.last())
-                test.toServer()
-                WorldClass.readUnicode(test).toServer()
-            }
         }
         return false
     }
@@ -137,9 +131,6 @@ object Command : FunctionalCommand {
                     if (args[1] == "save") WorldClass.worldList().add()
                     if (args[1] == "open") WorldClass.worldList().add()
                 }
-            }
-            OpArg.test -> when (lastIndex) {
-                1 -> if (args.last() == "") list.add(arg.argElement(args))
             }
         }
         return list

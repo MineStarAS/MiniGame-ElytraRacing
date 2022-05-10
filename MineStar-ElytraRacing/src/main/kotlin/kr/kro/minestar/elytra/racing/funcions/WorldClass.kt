@@ -3,8 +3,8 @@
 package kr.kro.minestar.elytra.racing.funcions
 
 import kr.kro.minestar.elytra.racing.Main.Companion.pl
-import kr.kro.minestar.elytra.racing.data.worlds.DesignWorld
-import kr.kro.minestar.elytra.racing.data.worlds.RacingWorld
+import kr.kro.minestar.elytra.racing.data.timer.worlds.DesignWorld
+import kr.kro.minestar.elytra.racing.data.timer.worlds.RacingWorld
 import org.apache.commons.io.FileUtils
 import org.bukkit.*
 import java.io.File
