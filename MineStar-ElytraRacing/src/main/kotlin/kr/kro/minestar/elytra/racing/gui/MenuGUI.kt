@@ -5,8 +5,8 @@ import kr.kro.minestar.utility.gui.GUI
 import kr.kro.minestar.utility.inventory.InventoryUtil
 import kr.kro.minestar.utility.item.Slot
 import kr.kro.minestar.utility.item.SlotKey
+import kr.kro.minestar.utility.item.display
 import kr.kro.minestar.utility.material.item
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -17,16 +17,14 @@ class MenuGUI(player: Player) : GUI(player) {
     override val pl = Main.pl
 
     private enum class Key : SlotKey {
-        TEST
+        WORLD_LIST
     }
 
     override fun slots(): Map<out SlotKey, Slot> = mapOf(
-        Pair(Key.TEST, Slot(0, 0, Material.GRASS_BLOCK.item())),
+        Pair(Key.WORLD_LIST, Slot(0, 0, Material.GRASS_BLOCK.item().display("§aWorld List"))),
     )
 
-    init {
-        openGUI()
-    }
+    override fun displaying() {}
 
     @EventHandler
     override fun clickGUI(e: InventoryClickEvent) {
@@ -35,13 +33,14 @@ class MenuGUI(player: Player) : GUI(player) {
         if (e.clickedInventory != e.view.topInventory) return
 
         val clickItem = e.currentItem ?: return
-        val slotKey = getSlotKey(clickItem, false) ?: return
+        val key = getSlotKey(clickItem, false) ?: return
 
-        when (slotKey as Key) {
-
-
+        when (key as Key) {
+            Key.WORLD_LIST -> {WorldListGUI(player)}
 
             else -> return
         }
     }
+
+    private val init = openGUI()
 }
