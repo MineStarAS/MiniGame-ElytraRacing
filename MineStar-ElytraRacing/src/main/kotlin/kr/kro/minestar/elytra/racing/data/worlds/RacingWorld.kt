@@ -11,6 +11,7 @@ import kr.kro.minestar.utility.scheduler.Scheduler
 import kr.kro.minestar.utility.scheduler.objectes.later.RunLater
 import kr.kro.minestar.utility.scheduler.objectes.later.RunTitle
 import kr.kro.minestar.utility.scheduler.objectes.now.RunNow
+import kr.kro.minestar.utility.sound.Scale
 import kr.kro.minestar.utility.string.removeUnderBar
 import kr.kro.minestar.utility.string.toPlayers
 import org.bukkit.*
@@ -96,22 +97,22 @@ class RacingWorld(world: World, private val worldName: String) : WorldData(world
         scheduler.addRun(RunLater({ SoundClass.enterWorld(worldPlayers()) }, 20 * 3))
         scheduler.addRun(RunTitle(worldPlayers(), "§9Racing World", "§e${WorldClass.readUnicode(worldName).removeUnderBar()}", 5, 40, 5, 20))
         scheduler.addRun(RunTitle(worldPlayers(), " ", "§e잠시 후 레이싱이 시작합니다", 5, 40, 5, 20))
-        scheduler.addRun(RunNow { SoundClass.countDown1.play(worldPlayers()) })
+        scheduler.addRun(RunNow { SoundClass.countDown.clone().setScale(Scale.DO).play(worldPlayers()) })
         scheduler.addRun(RunTitle(worldPlayers(), "§a5", " ", 0, 20, 0, 0))
-        scheduler.addRun(RunNow { SoundClass.countDown2.play(worldPlayers()) })
+        scheduler.addRun(RunNow { SoundClass.countDown.clone().setScale(Scale.RE).play(worldPlayers()) })
         scheduler.addRun(RunTitle(worldPlayers(), "§a4", " ", 0, 20, 0, 0))
-        scheduler.addRun(RunNow { SoundClass.countDown3.play(worldPlayers()) })
+        scheduler.addRun(RunNow { SoundClass.countDown.clone().setScale(Scale.MI).play(worldPlayers()) })
         scheduler.addRun(RunTitle(worldPlayers(), "§e3", " ", 0, 20, 0, 0))
-        scheduler.addRun(RunNow { SoundClass.countDown1.play(worldPlayers()) })
+        scheduler.addRun(RunNow { SoundClass.countDown.clone().setScale(Scale.FA).play(worldPlayers()) })
         scheduler.addRun(RunTitle(worldPlayers(), "§e2", " ", 0, 20, 0, 0))
-        scheduler.addRun(RunNow { SoundClass.countDown2.play(worldPlayers()) })
+        scheduler.addRun(RunNow { SoundClass.countDown.clone().setScale(Scale.SOL).play(worldPlayers()) })
         scheduler.addRun(RunTitle(worldPlayers(), "§c1", " ", 0, 20, 0, 0))
         scheduler.addRun(RunNow {
             gameTimer.start()
             started = true
             for (player in worldPlayers()) inventorySet(player)
             gaugeDisplay()
-            SoundClass.countDownOver.play(worldPlayers())
+            SoundClass.countDown.clone().setScale(Scale.LA).play(worldPlayers())
         })
         scheduler.addRun(RunTitle(worldPlayers(), "§6START", " ", 0, 20, 0, 0))
         scheduler.play()

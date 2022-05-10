@@ -66,28 +66,10 @@ object SoundClass {
         sound = Sound.ENTITY_PLAYER_HURT_ON_FIRE
     }
 
-    internal val countDown1 = PlaySound().apply {
+    internal val countDown = PlaySound().apply {
         soundCategory = SoundCategory.RECORDS
         sound = Sound.BLOCK_NOTE_BLOCK_BIT
         setScale(Scale.DO)
-    }
-
-    internal val countDown2 = PlaySound().apply {
-        soundCategory = SoundCategory.RECORDS
-        sound = Sound.BLOCK_NOTE_BLOCK_BIT
-        setScale(Scale.RE)
-    }
-
-    internal val countDown3 = PlaySound().apply {
-        soundCategory = SoundCategory.RECORDS
-        sound = Sound.BLOCK_NOTE_BLOCK_BIT
-        setScale(Scale.MI)
-    }
-
-    internal val countDownOver = PlaySound().apply {
-        soundCategory = SoundCategory.RECORDS
-        sound = Sound.BLOCK_NOTE_BLOCK_BIT
-        setScale(Scale.LA)
     }
 
     internal fun enterWorld(players: Collection<Player>) {
