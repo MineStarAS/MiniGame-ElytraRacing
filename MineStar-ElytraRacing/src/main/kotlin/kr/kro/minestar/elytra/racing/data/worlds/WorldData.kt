@@ -8,7 +8,6 @@ import kr.kro.minestar.utility.event.enable
 import kr.kro.minestar.utility.inventory.hasSameItem
 import kr.kro.minestar.utility.location.*
 import kr.kro.minestar.utility.location.Axis
-import kr.kro.minestar.utility.string.toServer
 import org.bukkit.*
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Player
@@ -240,8 +239,8 @@ abstract class WorldData(internal val world: World) : Listener {
         player.health = player.maxHealth
         player.fireTicks = -20
         player.gameMode = GameMode.ADVENTURE
-        player.addPotionEffect(PotionEffect(PotionEffectType.GLOWING,999999,0,false,false,false))
-        player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION,999999,0,false,false,false))
+        player.addPotionEffect(PotionEffect(PotionEffectType.GLOWING, 999999, 0, false, false, false))
+        player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, 999999, 0, false, false, false))
         previousBoostMap.remove(player)
     }
 
