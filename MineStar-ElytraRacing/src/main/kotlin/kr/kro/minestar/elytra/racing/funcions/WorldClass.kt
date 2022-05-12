@@ -3,8 +3,8 @@
 package kr.kro.minestar.elytra.racing.funcions
 
 import kr.kro.minestar.elytra.racing.Main.Companion.pl
-import kr.kro.minestar.elytra.racing.data.timer.worlds.DesignWorld
-import kr.kro.minestar.elytra.racing.data.timer.worlds.RacingWorld
+import kr.kro.minestar.elytra.racing.data.worlds.DesignWorld
+import kr.kro.minestar.elytra.racing.data.worlds.RacingWorld
 import org.apache.commons.io.FileUtils
 import org.bukkit.*
 import java.io.File
@@ -233,7 +233,6 @@ object WorldClass {
         world.setGameRule(GameRule.SPAWN_RADIUS, 0)
         world.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, true)
         world.setGameRule(GameRule.UNIVERSAL_ANGER, false)
-        world.time = 6000
     }
 
     internal fun convertUnicode(kor: String): String {

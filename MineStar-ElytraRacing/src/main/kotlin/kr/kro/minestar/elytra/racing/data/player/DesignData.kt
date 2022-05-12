@@ -8,7 +8,6 @@ import kr.kro.minestar.utility.item.amount
 import kr.kro.minestar.utility.item.isSameItem
 import kr.kro.minestar.utility.location.*
 import kr.kro.minestar.utility.location.Axis
-import kr.kro.minestar.utility.string.toServer
 import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -32,12 +31,11 @@ class DesignData(val player: Player) : Listener {
         }
 
         internal val editToolHotBar = arrayOf(
-            ItemClass.setStartLocation,
-            ItemClass.setGoalLocation,
             ItemClass.setBoosterLocation,
-            ItemClass.removeBoosterLocation,
             ItemClass.adjustOffset,
             ItemClass.toggleCenterAndUpward,
+            ItemClass.setStartLocation,
+            ItemClass.setGoalLocation,
         )
 
         internal fun enableAllPlayer() {
@@ -121,14 +119,21 @@ class DesignData(val player: Player) : Listener {
     /**
      * Event function
      */
+    private var drop = false
+
     @EventHandler
     private fun addAngleEvent(e: PlayerDropItemEvent) {
         if (player != e.player) return
         if (!e.itemDrop.itemStack.isSameItem(ItemClass.setBoosterLocation)) return
         e.isCancelled = true
+
+        drop = true
+        Bukkit.getScheduler().scheduleSyncDelayedTask(pl, { drop = true }, 1)
+
         addAngle()
         SoundClass.addSound.play(player)
         "§aAngle : ${angle()}˚".title()
+
     }
 
     @EventHandler
@@ -147,6 +152,7 @@ class DesignData(val player: Player) : Listener {
         if (player != e.player) return
         if (!player.isOp) return
         if (e.player.gameMode != GameMode.CREATIVE) return
+        if (drop) return
 
         val designWorld = WorldClass.getDesignWorld(player.world)
         val item = e.item?.amount(1) ?: return
@@ -175,35 +181,38 @@ class DesignData(val player: Player) : Listener {
                 "§aSet Goal Mark".title()
                 SoundClass.successSound.play(player)
             }
-            ItemClass.setBoosterLocation -> {
-                if (e.action != Action.RIGHT_CLICK_AIR)
-                    if (e.action != Action.RIGHT_CLICK_BLOCK) return
-                if (designWorld == null) {
-                    SoundClass.failSound.play(player)
-                    return "§cthis world is not Design World".title()
+            ItemClass.setBoosterLocation -> when (e.action) {
+                Action.RIGHT_CLICK_BLOCK,
+                Action.RIGHT_CLICK_AIR -> {
+                    if (designWorld == null) {
+                        SoundClass.failSound.play(player)
+                        return "§cthis world is not Design World".title()
+                    }
+                    if (designWorld.addBoosterMark(location.sort())) {
+                        "§aAdded Booster Mark".title()
+                        SoundClass.successSound.play(player)
+                    } else {
+                        "§cAnother booster is too close".title()
+                        SoundClass.failSound.play(player)
+                    }
                 }
-                if (designWorld.addBoosterMark(location.sort())) {
-                    "§aAdded Booster Mark".title()
-                    SoundClass.successSound.play(player)
-                } else {
-                    "§cAnother booster is too close".title()
-                    SoundClass.failSound.play(player)
+                Action.LEFT_CLICK_BLOCK,
+                Action.LEFT_CLICK_AIR -> {
+                    if (designWorld == null) {
+                        SoundClass.failSound.play(player)
+                        return "§cthis world is not Design World".title()
+                    }
+                    if (designWorld.removeBoosterMark(location)) {
+                        "§aRemoved Booster Mark".title()
+                        val sound = SoundClass.successSound.clone()
+                        sound.pitch = 1.6F
+                        sound.play(player)
+                    } else {
+                        "§cThere are no booster nearby".title()
+                        SoundClass.failSound.play(player)
+                    }
                 }
-            }
-            ItemClass.removeBoosterLocation -> {
-                if (e.action != Action.RIGHT_CLICK_AIR)
-                    if (e.action != Action.RIGHT_CLICK_BLOCK) return
-                if (designWorld == null) {
-                    SoundClass.failSound.play(player)
-                    return "§cthis world is not Design World".title()
-                }
-                if (designWorld.removeBoosterMark(location)) {
-                    "§aRemoved Booster Mark".title()
-                    SoundClass.successSound.play(player)
-                } else {
-                    "§cThere are no booster nearby".title()
-                    SoundClass.failSound.play(player)
-                }
+                else -> {}
             }
             ItemClass.adjustOffset -> when (e.action) {
                 Action.LEFT_CLICK_BLOCK,
@@ -276,9 +285,12 @@ class DesignData(val player: Player) : Listener {
                     }
                     ItemClass.setStartLocation,
                     ItemClass.setGoalLocation,
-                    ItemClass.toggleCenterAndUpward,
-                    ItemClass.removeBoosterLocation -> true
+                    ItemClass.toggleCenterAndUpward -> true
                     else -> false
+                }
+                if (b) {
+                    val directionLocation = location.clone().setAxis(Axis.PITCH, 0)
+                    for (int in 1..3) directionLocation.offset(0.5).colorParticle(Color.LIME, 1F)
                 }
                 count = 0
             }

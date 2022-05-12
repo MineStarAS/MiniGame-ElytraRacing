@@ -1,4 +1,4 @@
-package kr.kro.minestar.elytra.racing.data.timer.worlds
+package kr.kro.minestar.elytra.racing.data.worlds
 
 import kr.kro.minestar.elytra.racing.funcions.ItemClass
 import kr.kro.minestar.elytra.racing.funcions.WorldClass
@@ -12,12 +12,9 @@ import org.bukkit.World
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
-import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerGameModeChangeEvent
-import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import org.bukkit.inventory.EquipmentSlot
 import kotlin.math.absoluteValue
 
 class DesignWorld(world: World) : WorldData(world) {
@@ -67,9 +64,8 @@ class DesignWorld(world: World) : WorldData(world) {
     }
 
     fun addBoosterMark(location: Location): Boolean {
-        val centerLocation = location.setUp()
-        for (mark in nearMarks(centerLocation, 3.0)) if (isBoosterMark(mark)) return false
-        val mark = summonMark(centerLocation)
+        for (mark in nearMarks(location, 3.0)) if (isBoosterMark(mark)) return false
+        val mark = summonMark(location)
         mark.customName = "booster"
         return true
     }

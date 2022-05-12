@@ -2,20 +2,20 @@ package kr.kro.minestar.elytra.racing
 
 import kr.kro.minestar.elytra.racing.Main.Companion.prefix
 import kr.kro.minestar.elytra.racing.data.player.DesignData
-import kr.kro.minestar.elytra.racing.data.timer.worlds.DesignWorld
+import kr.kro.minestar.elytra.racing.data.worlds.DesignWorld
 import kr.kro.minestar.elytra.racing.funcions.ItemClass
 import kr.kro.minestar.elytra.racing.funcions.WorldClass
-import kr.kro.minestar.elytra.racing.gui.MenuGUI
 import kr.kro.minestar.utility.command.Argument
 import kr.kro.minestar.utility.command.FunctionalCommand
 import kr.kro.minestar.utility.string.removeUnderBar
-import kr.kro.minestar.utility.string.setUnderBar
 import kr.kro.minestar.utility.string.toPlayer
-import kr.kro.minestar.utility.string.toServer
 import kr.kro.minestar.utility.unit.setFalse
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.HoverEvent
+import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
-import org.bukkit.World
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -30,6 +30,7 @@ object Command : FunctionalCommand {
         racing("<WorldName>"),
         world("[create/open/save] <WorldName>"),
         tool(""),
+        unicode("<Korean>")
     }
 
     var test: DesignWorld? = null
@@ -65,7 +66,7 @@ object Command : FunctionalCommand {
                         player.gameMode = GameMode.CREATIVE
                         player.isFlying = true
                         player.teleport(designWorld.world.spawnLocation)
-                        if(args[1] == "create") "$prefix §e${args.last().removeUnderBar()} §a월드를 생성 하였습니다.".toPlayer(player)
+                        if (args[1] == "create") "$prefix §e${args.last().removeUnderBar()} §a월드를 생성 하였습니다.".toPlayer(player)
                         else "$prefix §e${args.last().removeUnderBar()} §a월드를 열었습니다.".toPlayer(player)
                         "[§a월드 코드§f] §e$worldName".toPlayer(player)
                     }
@@ -84,10 +85,27 @@ object Command : FunctionalCommand {
             }
             OpArg.tool -> {
                 val inventory = player.inventory
-                inventory.setItem(0,ItemClass.worldEditWand)
-                inventory.setItem(1,ItemClass.worldEditCompass)
-                inventory.setItem(2,ItemClass.redStoneBlock)
-                for ((int, item) in DesignData.editToolHotBar.withIndex()) inventory.setItem(int + 3, item)
+                inventory.setItem(0, ItemClass.worldEditWand)
+                inventory.setItem(1, ItemClass.worldEditCompass)
+                inventory.setItem(2, ItemClass.redStoneBlock)
+                for ((int, item) in DesignData.editToolHotBar.withIndex()) {
+                    val offset = if (int <= 2) 3
+                    else 4
+                    inventory.setItem(int + offset, item)
+                }
+            }
+            OpArg.unicode -> {
+                val korean = args.last()
+                val unicode = WorldClass.convertUnicode(korean)
+
+                val copyEvent = TextComponent("[§eClick to copy§f]")
+                copyEvent.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(unicode))
+                copyEvent.clickEvent = ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, unicode)
+
+                prefix.toPlayer(player)
+                "§aKoren §f: §e$korean".toPlayer(player)
+                "§bUnicode §f: §e$unicode".toPlayer(player)
+                player.spigot().sendMessage(copyEvent)
             }
         }
         return false

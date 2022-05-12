@@ -1,4 +1,4 @@
-package kr.kro.minestar.elytra.racing.data.timer.worlds
+package kr.kro.minestar.elytra.racing.data.worlds
 
 import kr.kro.minestar.elytra.racing.Main.Companion.pl
 import kr.kro.minestar.elytra.racing.data.bossbar.SpeedGauge
@@ -21,6 +21,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitTask
 
 class RacingWorld(world: World, private val worldName: String) : WorldData(world) {
@@ -159,6 +160,8 @@ class RacingWorld(world: World, private val worldName: String) : WorldData(world
             val world = Bukkit.getWorlds().first()
             for (player in worldPlayers()) {
                 player.gameMode = GameMode.ADVENTURE
+                player.removePotionEffect(PotionEffectType.GLOWING)
+                player.removePotionEffect(PotionEffectType.NIGHT_VISION)
                 player.teleport(world.spawnLocation)
             }
             disable()

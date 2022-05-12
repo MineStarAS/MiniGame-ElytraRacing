@@ -39,13 +39,9 @@ object ItemClass {
         .display("§bSet Booster Location")
         .addLore(" ")
         .addLore("§8[Right Click] Set Location")
+        .addLore("§8[Left Click] Remove Location")
         .addLore("§8[Drop] Add Angle")
         .addLore("§8[Swap] Remove Angle")
-
-    internal val removeBoosterLocation = Material.FIREWORK_STAR.item()
-        .display("§7Set Booster Location")
-        .addLore(" ")
-        .addLore("§8[Right Click] Remove Location")
 
     internal val adjustOffset = Material.TRIPWIRE_HOOK.item()
         .display("§6Adjust Offset")

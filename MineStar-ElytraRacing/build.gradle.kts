@@ -1,5 +1,5 @@
 group = "kr.kro.minestar"
-version = "1.0.0"
+version = "1.0.1"
 
 val plugins = File("C:\\Users\\MineStar\\Desktop\\MC Server folder\\MCserver 1.18.1 - vanilla\\plugins")
 

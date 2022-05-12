@@ -1,4 +1,4 @@
-package kr.kro.minestar.elytra.racing.data.timer.worlds
+package kr.kro.minestar.elytra.racing.data.worlds
 
 import kr.kro.minestar.elytra.racing.Main.Companion.pl
 import kr.kro.minestar.elytra.racing.funcions.ItemClass
@@ -8,12 +8,15 @@ import kr.kro.minestar.utility.event.enable
 import kr.kro.minestar.utility.inventory.hasSameItem
 import kr.kro.minestar.utility.location.*
 import kr.kro.minestar.utility.location.Axis
+import kr.kro.minestar.utility.string.toServer
 import org.bukkit.*
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitTask
 import java.io.File
 
@@ -70,6 +73,11 @@ abstract class WorldData(internal val world: World) : Listener {
         }
 
         when (true) {
+            player.fireTicks != -20 -> {
+                SoundClass.playerHurtOnFire.play(player)
+                teleportToStartLocation(player)
+                inventorySet(player)
+            }
             player.isGliding -> {
                 val nearMarks = nearMarks(location, 3.0)
                 if (nearMarks.isEmpty()) return
@@ -79,20 +87,15 @@ abstract class WorldData(internal val world: World) : Listener {
                 }
             }
             player.isOnGround -> {
-                for (mark in nearMarks(location, 5.0)) if (isGoalMark(mark)) return goalIn()
+                for (mark in nearMarks(location, 5.5)) if (isGoalMark(mark)) return goalIn()
                 else continue
 
-                if (location.distance(startLocation()) < 5.0) return
+                if (location.distance(startLocation()) < 5.5) return
 
                 teleportToStartLocation(player)
                 inventorySet(player)
                 if (player.isInWater) SoundClass.playerHurtInWater.play(player)
                 else SoundClass.playerHurt.play(player)
-            }
-            player.isVisualFire -> {
-                teleportToStartLocation(player)
-                inventorySet(player)
-                SoundClass.playerHurtOnFire.play(player)
             }
             else -> return
         }
@@ -104,7 +107,12 @@ abstract class WorldData(internal val world: World) : Listener {
         if (player.world != world) return
         e.damage = 1.0
 
-        if (e.cause == EntityDamageEvent.DamageCause.VOID) {
+        if (
+            e.cause == EntityDamageEvent.DamageCause.VOID
+            || e.cause == EntityDamageEvent.DamageCause.FIRE
+            || e.cause == EntityDamageEvent.DamageCause.FIRE_TICK
+            || e.cause == EntityDamageEvent.DamageCause.LAVA
+        ) {
             teleportToStartLocation(player)
             inventorySet(player)
         }
@@ -141,18 +149,21 @@ abstract class WorldData(internal val world: World) : Listener {
         for (int in 0 until amount1) {
             val angle = 360.0 / amount1 * int
             val loc = location.clone()
+            val color = if (this is DesignWorld && int == 0) Color.LIME
+            else Color.AQUA
 
             loc.addAxis(Axis.YAW, angle)
-            loc.clone().offset(radius).colorParticle(Color.AQUA, 4F)
-            loc.clone().offset(radius - 1).colorParticle(Color.AQUA, 4F)
+            loc.clone().offset(radius).colorParticle(color, 4F)
+            loc.clone().offset(radius - 1).colorParticle(color, 4F)
         }
         for (int in 0 until amount2) {
             val angle = 360.0 / amount2 * int
             val loc = location.clone().addAxis(Axis.Y, 0.1)
+            val color = Color.YELLOW
 
             loc.addAxis(Axis.YAW, angle)
-            loc.clone().offset(radius - 2).colorParticle(Color.YELLOW, 4F)
-            loc.clone().offset(radius - 3).colorParticle(Color.YELLOW, 4F)
+            loc.clone().offset(radius - 2).colorParticle(color, 4F)
+            loc.clone().offset(radius - 3).colorParticle(color, 4F)
         }
     }
 
@@ -227,7 +238,10 @@ abstract class WorldData(internal val world: World) : Listener {
     fun teleportToStartLocation(player: Player) {
         player.teleport(startLocation())
         player.health = player.maxHealth
+        player.fireTicks = -20
         player.gameMode = GameMode.ADVENTURE
+        player.addPotionEffect(PotionEffect(PotionEffectType.GLOWING,999999,0,false,false,false))
+        player.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION,999999,0,false,false,false))
         previousBoostMap.remove(player)
     }
 
