@@ -46,6 +46,9 @@ abstract class WorldData(internal val world: World) : Listener {
         val player = e.player
         val location = player.location
 
+        val boosterRadius = 3.0
+        val startGoalRadius = 5.5
+
         fun giveBooster(mark: ArmorStand) {
             if (this is RacingWorld) if (!isStarted()) return
             if (player.inventory.hasSameItem(ItemClass.fireworkRocket)) return
@@ -71,6 +74,9 @@ abstract class WorldData(internal val world: World) : Listener {
             }
         }
 
+        if (this is RacingWorld) if (!isStarted())
+            if (location.distance(startLocation()) >= startGoalRadius) return teleportToStartLocation(player)
+
         when (true) {
             player.fireTicks != -20 -> {
                 SoundClass.playerHurtOnFire.play(player)
@@ -78,7 +84,7 @@ abstract class WorldData(internal val world: World) : Listener {
                 inventorySet(player)
             }
             player.isGliding -> {
-                val nearMarks = nearMarks(location, 3.0)
+                val nearMarks = nearMarks(location, boosterRadius)
                 if (nearMarks.isEmpty()) return
                 for (mark in nearMarks) {
                     if (isBoosterMark(mark)) return giveBooster(mark)
@@ -86,10 +92,10 @@ abstract class WorldData(internal val world: World) : Listener {
                 }
             }
             player.isOnGround -> {
-                for (mark in nearMarks(location, 5.5)) if (isGoalMark(mark)) return goalIn()
+                for (mark in nearMarks(location, startGoalRadius)) if (isGoalMark(mark)) return goalIn()
                 else continue
 
-                if (location.distance(startLocation()) < 5.5) return
+                if (location.distance(startLocation()) < startGoalRadius) return
 
                 teleportToStartLocation(player)
                 inventorySet(player)

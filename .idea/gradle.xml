@@ -13,7 +13,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/MineStar-ElytraRacing" />
-            <option value="$PROJECT_DIR$/MineStar-Plugin-API" />
           </set>
         </option>
       </GradleProjectSettings>

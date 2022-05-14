@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="StickySelectionHighlights">
+    <option name="editorHighlights">
+      <map>
+        <entry key="$PROJECT_DIR$/MineStar-ElytraRacing/src/main/kotlin/kr/kro/minestar/elytra/racing/Command.kt">
+          <value>
+            <PaintGroupHighlightMap>
+              <option name="paintGroups">
+                <map>
+                  <entry key="0">
+                    <value>
+                      <EditorHighlightsForPaintGroup>
+                        <option name="highlights">
+                          <list>
+                            <HighlightOffset>
+                              <option name="start" value="2888" />
+                              <option name="end" value="2890" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="2994" />
+                              <option name="end" value="2996" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3051" />
+                              <option name="end" value="3053" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3679" />
+                              <option name="end" value="3681" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3749" />
+                              <option name="end" value="3751" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="4906" />
+                              <option name="end" value="4908" />
+                            </HighlightOffset>
+                          </list>
+                        </option>
+                      </EditorHighlightsForPaintGroup>
+                    </value>
+                  </entry>
+                  <entry key="1">
+                    <value>
+                      <EditorHighlightsForPaintGroup>
+                        <option name="highlights">
+                          <list>
+                            <HighlightOffset>
+                              <option name="start" value="4963" />
+                              <option name="end" value="4965" />
+                            </HighlightOffset>
+                          </list>
+                        </option>
+                      </EditorHighlightsForPaintGroup>
+                    </value>
+                  </entry>
+                  <entry key="2">
+                    <value>
+                      <EditorHighlightsForPaintGroup>
+                        <option name="highlights">
+                          <list>
+                            <HighlightOffset>
+                              <option name="start" value="1825" />
+                              <option name="end" value="1827" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="2150" />
+                              <option name="end" value="2152" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="2524" />
+                              <option name="end" value="2526" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3336" />
+                              <option name="end" value="3338" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3518" />
+                              <option name="end" value="3520" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3857" />
+                              <option name="end" value="3859" />
+                            </HighlightOffset>
+                          </list>
+                        </option>
+                      </EditorHighlightsForPaintGroup>
+                    </value>
+                  </entry>
+                  <entry key="4">
+                    <value>
+                      <EditorHighlightsForPaintGroup>
+                        <option name="highlights">
+                          <list>
+                            <HighlightOffset>
+                              <option name="start" value="2854" />
+                              <option name="end" value="2856" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="2960" />
+                              <option name="end" value="2962" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3062" />
+                              <option name="end" value="3064" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3645" />
+                              <option name="end" value="3647" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3760" />
+                              <option name="end" value="3762" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="4637" />
+                              <option name="end" value="4639" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="4918" />
+                              <option name="end" value="4920" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="4977" />
+                              <option name="end" value="4979" />
+                            </HighlightOffset>
+                          </list>
+                        </option>
+                      </EditorHighlightsForPaintGroup>
+                    </value>
+                  </entry>
+                  <entry key="5">
+                    <value>
+                      <EditorHighlightsForPaintGroup>
+                        <option name="highlights">
+                          <list>
+                            <HighlightOffset>
+                              <option name="start" value="3058" />
+                              <option name="end" value="3060" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="3756" />
+                              <option name="end" value="3758" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="4652" />
+                              <option name="end" value="4654" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="4914" />
+                              <option name="end" value="4916" />
+                            </HighlightOffset>
+                            <HighlightOffset>
+                              <option name="start" value="4973" />
+                              <option name="end" value="4975" />
+                            </HighlightOffset>
+                          </list>
+                        </option>
+                      </EditorHighlightsForPaintGroup>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </PaintGroupHighlightMap>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

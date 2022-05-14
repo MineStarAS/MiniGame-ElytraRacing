@@ -2,7 +2,6 @@ package kr.kro.minestar.elytra.racing
 
 import kr.kro.minestar.elytra.racing.Main.Companion.prefix
 import kr.kro.minestar.elytra.racing.data.player.DesignData
-import kr.kro.minestar.elytra.racing.data.worlds.DesignWorld
 import kr.kro.minestar.elytra.racing.funcions.ItemClass
 import kr.kro.minestar.elytra.racing.funcions.WorldClass
 import kr.kro.minestar.utility.command.Argument
@@ -33,8 +32,6 @@ object Command : FunctionalCommand {
         unicode("<Korean>")
     }
 
-    var test: DesignWorld? = null
-
     override fun onCommand(player: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
         if (player !is Player) return false
 
@@ -62,7 +59,7 @@ object Command : FunctionalCommand {
                         val worldName = WorldClass.convertUnicode(args.last())
                         val designWorld = WorldClass.enableDesignWorld(worldName)
                             ?: return "$prefix §c월드 생성에 실패 하였습니다.".toPlayer(player).setFalse()
-                        test = designWorld
+
                         player.gameMode = GameMode.CREATIVE
                         player.isFlying = true
                         player.teleport(designWorld.world.spawnLocation)
